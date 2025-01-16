@@ -265,25 +265,34 @@ trains=[t1,t7,t2,t3,t8,t4,t9,t5,t10,t11,t12,t6]
 ltotal = trains.copy()
 
 ##------------CASE 0---------------##
-##D= Disruption("General")
+##case=0
+##D=""
 
 ##------------CASE 1---------------##
-##D= Disruption("Testing train")
-##D.train_speed(t1,-0.25,Hjerkinn,Oyer) #Testing train, speed reduction
+case=1
+D= Disruption("Testing train")
+D.train_speed(t1,-0.25,Hjerkinn,Oyer) #Testing train, speed reduction
+D=[D]
 
 ##------------CASE 2---------------##
+##case=2
 ##D = Disruption("Slippery track")
 ##D.track_reduction(60,Lillehammer,Hamar)  #Slippery track, max speed 60 km/h
+##D=[D]
 
 ##------------CASE 3---------------##
+##case=3
 ##D=Disruption("Maintenance work")
 ##D.close_section(Vinstra,Faberg,datetime(2024,1,1,22,0),datetime(2024,1,2,2,0)) #Closed track due to maintenance work
+##D=[D]
 
 ##------------CASE 4---------------##
+##case=4
 ##D=Disruption("Breakdown")
 ##D.failure(t4,Otta,timedelta(minutes=120)) #Closed track between due to train failure
 
 ##------------CASE 5---------------##
+##case=5
 ##D1=Disruption("Winter storm")
 ##D1.close_section(Oppdal,Dombas,datetime(2024,1,1,7,0),datetime(2024,1,1,10,0))
 ##D2= Disruption("Slippery track")
@@ -292,6 +301,7 @@ ltotal = trains.copy()
 ##D=[D1,D2]
 
 ##------------SCENARIO 1---------------##
+##case=6
 ##D1=Disruption("Electricity problems")
 ##D1.failure(t6,Selsbakk,timedelta(minutes=80)) #Closed track between due to tree over the overhead line
 ##D2=Disruption("Electricity problems")
@@ -301,10 +311,11 @@ ltotal = trains.copy()
 ##D3.failure(t6,Fokstua,timedelta(minutes=65)) #Closed track between due to train failure
 ##D4=Disruption("Wait for train")
 ##D4.failure(t12,Dovre,timedelta(minutes=100)) #Waiting for the next train
-
+##
 ##D=[D1,D2,D3,D4]
 
 ##------------SCENARIO 2---------------##
+##case=7
 ##D1=Disruption("Train problems")
 ##D1.train_speed(t7,-0.15,Hjerkinn, Oyer) #Speed reduction due to train problems
 
@@ -315,6 +326,7 @@ ltotal = trains.copy()
 
 
 ##------------SCENARIO 3---------------##
+##case=8
 ##D1=Disruption("Collision")
 ##D1.failure(t3,Fagerhaug,timedelta(minutes=55))
 ##

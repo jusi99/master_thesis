@@ -20,25 +20,26 @@ def simulation(trains,disruption):
             arrival_time=train.calculate_arrival_time(section_now, speed)
             print(f'Current station: {CEst.name}. Next station: {NEst.name}. Arrival time: {arrival_time.time()}')
 
-            for fault in disruption:
-                if CEst in fault.stations and (fault.track_locked or fault.track_closed):
-                    start,end=fault.timings
-                    ini_s,end_s=fault.stations[0],fault.stations[-1]
-                    if fault.track_closed:
-                        if start<arrival_time<end:
-                            print(f'Line is closed in the section {ini_s.name} <-> {end_s.name} between {start.time()} and {end.time()} due to {fault.tipus}')
-                            CEst.change_time(train,end)
-                            others = [time for time in lha if time>end]
-                            last_move=min(others) if others!=[] else min(lha)
+            if disruption!="":
+                for fault in disruption:
+                    if CEst in fault.stations and (fault.track_locked or fault.track_closed):
+                        start,end=fault.timings
+                        ini_s,end_s=fault.stations[0],fault.stations[-1]
+                        if fault.track_closed:
+                            if start<arrival_time<end:
+                                print(f'Line is closed in the section {ini_s.name} <-> {end_s.name} between {start.time()} and {end.time()} due to {fault.tipus}')
+                                CEst.change_time(train,end)
+                                others = [time for time in lha if time>end]
+                                last_move=min(others) if others!=[] else min(lha)
+                                continue
+                        elif fault.track_locked==train:
+                            print(f'Track {ini_s.name} <-> {end_s.name} is occupied by train {train.name} for {end}h due to {fault.tipus}')
+                            stop=train.time_now+end
+                            fault.timings=train.time_now,stop
+                            CEst.change_time(train,stop)
+                            fault.track_locked=None
+                            fault.track_closed=True
                             continue
-                    elif fault.track_locked==train:
-                        print(f'Track {ini_s.name} <-> {end_s.name} is occupied by train {train.name} for {end}h due to {fault.tipus}')
-                        stop=train.time_now+end
-                        fault.timings=train.time_now,stop
-                        CEst.change_time(train,stop)
-                        fault.track_locked=None
-                        fault.track_closed=True
-                        continue
             
             if train.origin.name==train.get_station().name: #initial Station
                 train.origin.add_time(train,train.start)
@@ -181,6 +182,8 @@ def crossings(lt):
 
 
 if __name__ == "__main__":
+    D="" #case for normal conditions
+
     simulation(trains,D)
 
 

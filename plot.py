@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import datetime
+from datetime import datetime
 from data import *
 from schedule import *
 from classes import *
@@ -266,7 +266,11 @@ plt.xticks(ticks=x_positions, labels=stations_all, rotation=90)
 plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1))
 plt.ylabel("Time")
 plt.xlabel("Stations")
-plt.title(str(D))
+if D=="":
+    D="F6 timetable under normal conditions"
+    plt.title(D) #for normal conditions
+else:
+    plt.title(" & ".join(str(fault) for fault in D))
 
 # Formatear el eje de tiempo
 plt.gca().yaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
